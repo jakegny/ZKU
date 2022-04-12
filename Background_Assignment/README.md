@@ -32,3 +32,55 @@ I would have the colorblind person make two different places / labels that I don
 [HelloWorld.sol](HelloWorld.sol)
 
 ![Hello World Remix Screenshot](HelloWorld_Remix.png)
+
+> 2. On the documentation page, the “Ballot” contract demonstrates a lot of features on Solidity. Read through the script and try to understand what each line of code is doing.
+
+\_Ballot.sol demonstrats the use of:
+
+1. Structs
+   programmer defined data type (structure).
+2. Mappings
+   an implementation of a hash table, a key -> value relationship.
+3. a constructor
+   The method called only at initialization (deployment) of the smart contract.
+4. the `memory` keyword
+   Temporary storage, only available for the length of the execution of the smart contract.
+5. `msg.sender` refers to the address that initiated the transaction or function call on the smart contract.
+6. Iterating with a `for` loop.
+7. The use of a array / array accessors.
+8. `require`
+   check if some condition is true, throw an error if it is now, with optional user defined error messages.
+9. if / else statements
+
+> 3. Suppose we want to limit the voting period of each Ballot contract to 5 minutes. To do so, implement the following: Add a state variable startTime to record the voting start time. Create a modifier voteEnded that will check if the voting period is over. Use that modifier in the vote function to forbid voting and revert the transaction after the deadline.
+
+Relevant snippets of code:
+
+```solidity
+...
+// Allow voting for 5 minutes
+uint startTime;
+modifier voteEnded {
+	// 300 = 5 (minutes) * 60 (seconds) conversion
+	if(block.timestamp > startTime + 300) {
+		revert("Voting has ended. Your vote will not be counted.");
+	}
+	_; // Call the function the modifer wraps
+}
+...
+constructor(bytes32[] memory proposalNames) {
+	chairperson = msg.sender;
+	voters[chairperson].weight = 1;
+	startTime = block.timestamp; // set voting start time in seconds
+...
+function vote(uint proposal) public voteEnded {
+...
+```
+
+[Full Code](ModifiedBallot.sol)
+
+> 4. Deploy your amended script and test the newly implemented functionality in part 3. Submit (1) your amended version of the contract on Github or Gist and (2) screenshots showing the time of contract deployment as well as the transaction being reverted once past the voting period.
+
+![Vote being cast successfully](Create-Good-Vote.png)
+
+![Vote cast after 5 minutes failing](Vote_Expired.png)
