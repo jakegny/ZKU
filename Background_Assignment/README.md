@@ -1,5 +1,7 @@
 # [Background Assignment](https://harmonyone.notion.site/Background-Assignment-a0d3855f9b9d4728a58b481c30ecfd3f)
 
+[Link to my submission on Github](https://github.com/jakegny/ZKU/tree/main/Background_Assignment)
+
 ## A. Conceptual Knowledge
 
 > 1. What is a smart contract? How are they deployed? You should be able to describe how a smart contract is deployed and the necessary steps.
